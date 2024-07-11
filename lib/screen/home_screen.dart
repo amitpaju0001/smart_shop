@@ -102,6 +102,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       Text(
                         product.description,
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          TextButton(onPressed: () {
+
+                          }, child: const Text(StringConst.homeAdd)),
+                          TextButton(onPressed: () {
+
+                          }, child: const Text(StringConst.homeUpdate)),
+                          TextButton(onPressed: () {
+
+                          }, child: const Text(StringConst.homeDelete)),
+                        ],
+                      ),
                     ],
                   ),
                 ),

@@ -15,5 +15,8 @@ class StringConst {
   static const String homePrice = 'Price:';
   static const String homeCategory = ' Category:';
   static const String homeDesc = 'Description:';
+  static const String homeAdd = 'Add Products';
+  static const String homeUpdate = 'Update Products';
+  static const String homeDelete = 'Delete Products';
 
 }
