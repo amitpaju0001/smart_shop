@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+import 'package:smart_shop/screen/login_screen.dart';
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -26,7 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 10,
                 ),
                 const Padding(
-                    padding: EdgeInsets.all(20), child: Icon(Icons.person)),
+                    padding: EdgeInsets.all(20), child: Icon(Icons.person,size:200,color: Colors.blue,)),
                 const SizedBox(
                   height: 16,
                 ),
@@ -36,7 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: TextFormField(
                     controller: nameController,
                     decoration: const InputDecoration(
-                      labelText: 'enter user name',
+                      labelText: 'Full name',
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.person),
                     ),
@@ -134,6 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     TextButton(
                       onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen(),));
                       },
                       child: const Text(
                         'Log In',
