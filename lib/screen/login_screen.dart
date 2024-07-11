@@ -115,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                       },
                       child: const Text(
-                        StringConst.noAccount,
+                        StringConst.createAccount,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
