@@ -15,4 +15,5 @@ class ApiProductProvider extends ChangeNotifier {
       print('Error fetched products: $e');
     }
   }
+
 }

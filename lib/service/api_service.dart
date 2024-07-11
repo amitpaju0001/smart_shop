@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:smart_shop/model/product_model.dart';
 import 'package:smart_shop/service/api_endpoints.dart';
 
@@ -31,6 +32,17 @@ class ApiService {
       }
 
       return productList;
+    } else {
+      throw 'Something went wrong';
+    }
+  }
+  static Future<String> addProduct(ProductModel productModel) async {
+    Uri uri = Uri.parse(ApiEndpoints.product);
+    Map<String, dynamic> map = productModel.toJson();
+    String mapStr = jsonEncode(map);
+    Response response = await http.post(uri, body: mapStr);
+    if (response.statusCode == 201) {
+      return 'Product added successfully';
     } else {
       throw 'Something went wrong';
     }
