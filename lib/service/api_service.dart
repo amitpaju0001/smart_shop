@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:smart_shop/model/product_model.dart';
-import 'package:smart_shop/provider/api_endpoints.dart';
+import 'package:smart_shop/service/api_endpoints.dart';
 
 class ApiService {
   static Future<ProductModel> fetchProduct(String productId) async {
