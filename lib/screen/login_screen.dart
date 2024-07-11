@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:smart_shop/screen/signup_screen.dart';
+import 'package:smart_shop/shared/string_const.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -35,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: TextFormField(
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      label: Text('Enter UserName'),
+                      label: Text(StringConst.usernameLabelText),
                       prefixIcon: Icon(Icons.person),
                     ),
                   ),
@@ -49,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: passToggle,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      label: const Text('Enter password'),
+                      label: const Text(StringConst.passwordLabelText),
                       prefixIcon: const Icon(Icons.lock),
                       suffixIcon: InkWell(
                         onTap: () {
@@ -78,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               vertical: 15, horizontal: 40),
                           child: Center(
                             child: Text(
-                              'Log In',
+                              StringConst.logIn,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 24,
@@ -98,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "Don't have any account?",
+                    StringConst.noAccount,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -114,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                       },
                       child: const Text(
-                        'Create Account',
+                        StringConst.noAccount,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_shop/screen/login_screen.dart';
+import 'package:smart_shop/shared/string_const.dart';
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
 
@@ -37,7 +38,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: TextFormField(
                     controller: nameController,
                     decoration: const InputDecoration(
-                      labelText: 'Full name',
+                      labelText: StringConst.signUpName,
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.person),
                     ),
@@ -49,7 +50,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: TextFormField(
                     controller: emailController,
                     decoration: const InputDecoration(
-                      labelText: 'enter email',
+                      labelText: StringConst.signUpEmail,
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.email),
                     ),
@@ -61,7 +62,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   child: TextFormField(
                     controller: phoneController,
                     decoration: const InputDecoration(
-                      labelText: 'phone number',
+                      labelText: StringConst.signUpPhone,
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.phone),
                     ),
@@ -74,7 +75,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     controller: passwordController,
                     obscureText: passToggle ? true : false,
                     decoration: InputDecoration(
-                        labelText: 'enter password',
+                        labelText: StringConst.signUpPassword,
                         border: const OutlineInputBorder(),
                         prefixIcon: const Icon(Icons.lock),
                         suffixIcon: InkWell(
@@ -108,7 +109,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               vertical: 15, horizontal: 40),
                           child: Center(
                             child: Text(
-                              'Sign up',
+                              StringConst.signUp,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 24,
@@ -127,7 +128,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                'Already have an Account?',
+                      StringConst.signUpAlreadyAccount,
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -138,7 +139,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen(),));
                       },
                       child: const Text(
-                        'Log In',
+                        StringConst.logIn,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
