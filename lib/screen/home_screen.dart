@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_shop/provider/api_product_provider.dart';
+import 'package:smart_shop/screen/add_product_screen.dart';
 import 'package:smart_shop/shared/string_const.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -106,7 +107,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           TextButton(onPressed: () {
-
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return const AddProductScreen();
+                              },
+                            )).then((_) {
+                              fetchProducts();
+                            });
                           }, child: const Text(StringConst.homeAdd)),
                           TextButton(onPressed: () {
 

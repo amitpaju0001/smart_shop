@@ -18,7 +18,7 @@ class ProductModel {
       id: json['id'],
       name: json['name'],
       description: json['description'],
-      price: json['price'],
+      price: json['price']is String ? int.parse(json['price']) : json['price'],
       category: json['category'],
     );
   }
@@ -28,7 +28,7 @@ class ProductModel {
       'id': id,
       'name': name,
       'description': description,
-      'price': price.toString(),
+      'price': price,
       'category': category,
     };
   }

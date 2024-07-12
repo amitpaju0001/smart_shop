@@ -8,7 +8,9 @@ class ApiService {
   static Future<ProductModel> fetchProduct(String productId) async {
     String url = '${ApiEndpoints.product}/$productId';
     Uri uri = Uri.parse(url);
-    http.Response response = await http.get(uri);
+    http.Response response = await http.get(uri, headers: {
+      'Authorization': 'Bearer ${ApiEndpoints.authToken}',
+    });
     if (response.statusCode == 200) {
       String body = response.body;
       var json = jsonDecode(body);
@@ -21,7 +23,9 @@ class ApiService {
 
   static Future<List<ProductModel>> fetchProducts() async {
     Uri uri = Uri.parse(ApiEndpoints.product);
-    http.Response response = await http.get(uri);
+    http.Response response = await http.get(uri, headers: {
+      'Authorization': 'Bearer ${ApiEndpoints.authToken}',
+    });
     if (response.statusCode == 200) {
       String body = response.body;
       List<dynamic> listMap = jsonDecode(body);
@@ -36,11 +40,22 @@ class ApiService {
       throw 'Something went wrong';
     }
   }
+
   static Future<String> addProduct(ProductModel productModel) async {
     Uri uri = Uri.parse(ApiEndpoints.product);
     Map<String, dynamic> map = productModel.toJson();
+    map.remove('id');
     String mapStr = jsonEncode(map);
-    Response response = await http.post(uri, body: mapStr);
+
+    Response response = await http.post(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${ApiEndpoints.authToken}',
+      },
+      body: mapStr,
+    );
+
     if (response.statusCode == 201) {
       return 'Product added successfully';
     } else {

@@ -18,5 +18,10 @@ class StringConst {
   static const String homeAdd = 'Add Products';
   static const String homeUpdate = 'Update Products';
   static const String homeDelete = 'Delete Products';
-
+  static const String addLabelName = 'Product Name';
+  static const String addLabelPrice = 'Product Price';
+  static const String addLabelDesc = 'Description';
+  static const String addLabelCategory = 'Category ';
+  static const String errorAdd = ' Error adding Product';
+  static const String addProduct = 'Add Product';
 }
