@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_shop/provider/api_product_provider.dart';
 import 'package:smart_shop/screen/add_product_screen.dart';
+import 'package:smart_shop/screen/update_product_screen.dart';
 import 'package:smart_shop/shared/string_const.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -116,7 +117,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             });
                           }, child: const Text(StringConst.homeAdd)),
                           TextButton(onPressed: () {
-
+                            Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return UpdateProductScreen(product:product);
+                              },
+                            )).then((_) {
+                              fetchProducts();
+                            });
                           }, child: const Text(StringConst.homeUpdate)),
                           TextButton(onPressed: () {
 

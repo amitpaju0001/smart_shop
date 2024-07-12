@@ -24,4 +24,7 @@ class StringConst {
   static const String addLabelCategory = 'Category ';
   static const String errorAdd = ' Error adding Product';
   static const String addProduct = 'Add Product';
+  static const String errorUpdate = ' Error updating Product';
+  static const String updateProduct = 'Update Product';
+
 }

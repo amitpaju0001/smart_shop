@@ -62,4 +62,19 @@ class ApiService {
       throw 'Something went wrong';
     }
   }
+  static Future<String> updateProduct(
+      String productId, ProductModel productModel) async {
+    Map<String, dynamic> map = productModel.toJson();
+    String mapStr = jsonEncode(map);
+    Uri uri = Uri.parse('${ApiEndpoints.product}/$productId');
+    Response response = await http.put(uri, body: mapStr, headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${ApiEndpoints.authToken}',
+    });
+    if (response.statusCode == 200) {
+      return 'Product updated successfully';
+    } else {
+      throw 'Something went wrong';
+    }
+  }
 }

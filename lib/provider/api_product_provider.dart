@@ -26,5 +26,14 @@ class ApiProductProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> updateProduct(String productId, ProductModel product) async {
+    try {
+      await ApiService.updateProduct(productId, product);
+      await fetchProducts();
+      notifyListeners();
+    } catch (e) {
+      print('Error updating product: $e');
+    }
+  }
 
 }
