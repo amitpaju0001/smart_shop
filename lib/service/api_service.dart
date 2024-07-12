@@ -20,7 +20,6 @@ class ApiService {
       throw 'Something went wrong';
     }
   }
-
   static Future<List<ProductModel>> fetchProducts() async {
     Uri uri = Uri.parse(ApiEndpoints.product);
     http.Response response = await http.get(uri, headers: {

@@ -26,5 +26,10 @@ class StringConst {
   static const String addProduct = 'Add Product';
   static const String errorUpdate = ' Error updating Product';
   static const String updateProduct = 'Update Product';
-
+  static const String signValidUser = 'Enter your username';
+  static const String signValidEmail = 'Enter your email';
+  static const String signValidPhone = 'Enter your phone number';
+  static const String signValidPass = 'Enter your password';
+  static const String signSnackField = 'Fields is required';
+  static const String signSnackFail = 'Registration failed. Try again.';
 }
