@@ -35,5 +35,13 @@ class ApiProductProvider extends ChangeNotifier {
       print('Error updating product: $e');
     }
   }
-
+  Future<void> deleteProduct(String productId) async {
+    try {
+      await ApiService.deleteProduct(productId);
+      await fetchProducts();
+      notifyListeners();
+    } catch (e) {
+      print('Error deleting product: $e');
+    }
+  }
 }

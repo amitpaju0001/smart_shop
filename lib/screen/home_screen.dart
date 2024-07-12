@@ -13,7 +13,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -21,9 +20,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future fetchProducts() async {
-    final productProvider = Provider.of<ApiProductProvider>(context, listen: false);
+    final productProvider =
+        Provider.of<ApiProductProvider>(context, listen: false);
     await productProvider.fetchProducts();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,27 +108,60 @@ class _HomeScreenState extends State<HomeScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          TextButton(onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
-                                return const AddProductScreen();
+                          TextButton(
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return const AddProductScreen();
+                                  },
+                                )).then((_) {
+                                  fetchProducts();
+                                });
                               },
-                            )).then((_) {
-                              fetchProducts();
-                            });
-                          }, child: const Text(StringConst.homeAdd)),
-                          TextButton(onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context) {
-                                return UpdateProductScreen(product:product);
+                              child: const Text(StringConst.homeAdd)),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) {
+                                    return UpdateProductScreen(
+                                        product: product);
+                                  },
+                                )).then((_) {
+                                  fetchProducts();
+                                });
                               },
-                            )).then((_) {
-                              fetchProducts();
-                            });
-                          }, child: const Text(StringConst.homeUpdate)),
-                          TextButton(onPressed: () {
-
-                          }, child: const Text(StringConst.homeDelete)),
+                              child: const Text(StringConst.homeUpdate)),
+                          TextButton(
+                              onPressed: () async {
+                                bool? confirmed = await showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text('Confirm Delete'),
+                                      content: const Text(
+                                          'Confirm to delete product?'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop(false);
+                                          },
+                                          child: const Text('Cancel'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop(true);
+                                          },
+                                          child: const Text('Confirm'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                                if (confirmed == true) {
+                                  await Provider.of<ApiProductProvider>(context,listen: false).deleteProduct(product.id);
+                                }
+                              },
+                              child: const Text(StringConst.homeDelete)),
                         ],
                       ),
                     ],

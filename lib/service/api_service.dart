@@ -77,4 +77,21 @@ class ApiService {
       throw 'Something went wrong';
     }
   }
+
+  static Future<void> deleteProduct(String productId) async {
+    if (productId == null) {
+      throw 'Product ID cannot be null';
+    }
+
+    Uri uri = Uri.parse('${ApiEndpoints.product}/$productId');
+    Response response = await http.delete(uri, headers: {
+      'Authorization': 'Bearer ${ApiEndpoints.authToken}',
+      'Content-Type': 'application/json',
+    });
+    if (response.statusCode == 200) {
+      print('Product deleted successfully');
+    } else {
+      throw 'Failed to delete product: ${response.statusCode}';
+    }
+  }
 }
