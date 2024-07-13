@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:smart_shop/screen/signup_screen.dart';
+import 'package:smart_shop/service/auth_api_service.dart';
+import 'package:smart_shop/model/auth_model.dart';
+import 'package:smart_shop/shared/widget/reuse_validator.dart';
+import 'home_screen.dart';
 import 'package:smart_shop/shared/string_const.dart';
+import 'package:smart_shop/shared/widget/reuse_text_form_field.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -10,122 +16,103 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool passToggle = true;
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  final AuthApiService _apiService = AuthApiService();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      child: SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(StringConst.logIn),
+      ),
+      body: SingleChildScrollView(
         child: SafeArea(
           child: Form(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Icon(CupertinoIcons.home,size: 200,color: Colors.blue,),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      label: Text(StringConst.usernameLabelText),
-                      prefixIcon: Icon(Icons.person),
-                    ),
+            key: _formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  const Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Icon(CupertinoIcons.home, size: 200, color: Colors.blue),
                   ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: TextFormField(
-                    obscureText: passToggle,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      label: const Text(StringConst.passwordLabelText),
-                      prefixIcon: const Icon(Icons.lock),
-                      suffixIcon: InkWell(
-                        onTap: () {
-                          setState(() {
-                            passToggle = !passToggle;
-                          });
+                  const SizedBox(height: 10),
+                  ReuseTextFormField(
+                    controller: usernameController,
+                    labelText: StringConst.usernameLabelText,
+                    prefixIcon: Icons.person,
+                    validator: ReuseValidator.validateUsername,
+                  ),
+                  const SizedBox(height: 10),
+                  ReuseTextFormField(
+                    controller: passwordController,
+                    labelText: StringConst.passwordLabelText,
+                    prefixIcon: Icons.lock,
+                    isPassword: true,
+                    validator: ReuseValidator.validatePassword,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          if (_formKey.currentState!.validate()) {
+                            AuthModel user = AuthModel(
+                              username: usernameController.text,
+                              password: passwordController.text,
+                            );
+                            bool loggedIn = await _apiService.login(user);
+                            if (loggedIn) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => const HomeScreen()),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text(StringConst.signInFail)),
+                              );
+                            }
+                          }
                         },
-                        child: passToggle
-                            ? const Icon(CupertinoIcons.eye_slash_fill)
-                            : const Icon(CupertinoIcons.eye_fill),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Material(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(10),
-                      child: InkWell(
-                        onTap: (){},
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 40),
-                          child: Center(
-                            child: Text(
-                              StringConst.logIn,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
+                        child: const Text(
+                          StringConst.logIn,
                         ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                    StringConst.noAccount,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black54,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SignupScreen()),
-                        );
-                      },
-                      child: const Text(
-                        StringConst.createAccount,
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        StringConst.noAccount,
                         style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.blue,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black54,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const SignupScreen()),
+                          );
+                        },
+                        child: const Text(
+                          StringConst.createAccount,
+                          style: TextStyle(color: Colors.blue),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

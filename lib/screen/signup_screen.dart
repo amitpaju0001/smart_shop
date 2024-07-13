@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:smart_shop/model/user_model.dart';
-import 'package:smart_shop/service/user_api_service.dart';
+import 'package:smart_shop/model/auth_model.dart';
+import 'package:smart_shop/service/auth_api_service.dart';
 import 'package:smart_shop/screen/login_screen.dart';
 import 'package:smart_shop/shared/string_const.dart';
-
+import 'package:smart_shop/shared/widget/reuse_text_form_field.dart';
+import 'package:smart_shop/shared/widget/reuse_validator.dart';
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
-
   @override
   State<SignupScreen> createState() => _SignupScreenState();
 }
-
 class _SignupScreenState extends State<SignupScreen> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  bool passToggle = true;
-
-  final UserApiService _apiService = UserApiService();
-
+  final AuthApiService _apiService = AuthApiService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,79 +31,39 @@ class _SignupScreenState extends State<SignupScreen> {
             const SizedBox(height: 20),
             const Icon(Icons.person, size: 200, color: Colors.blue),
             const SizedBox(height: 20),
-            TextFormField(
+            ReuseTextFormField(
               controller: usernameController,
-              decoration: const InputDecoration(
-                labelText: StringConst.signUpName,
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.person),
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return StringConst.signValidUser;
-                }
-                return null;
-              },
+              labelText: StringConst.signUpName,
+              prefixIcon: Icons.person,
+              validator: ReuseValidator.validateUsername,
             ),
             const SizedBox(height: 10),
-            TextFormField(
+            ReuseTextFormField(
               controller: emailController,
-              decoration: const InputDecoration(
-                labelText: StringConst.signUpEmail,
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.email),
-              ),
+              labelText: StringConst.signUpEmail,
+              prefixIcon: Icons.email,
               keyboardType: TextInputType.emailAddress,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return StringConst.signValidEmail;
-                }
-                return null;
-              },
+              validator: ReuseValidator.validateEmail,
             ),
             const SizedBox(height: 10),
-            TextFormField(
+            ReuseTextFormField(
               controller: phoneController,
-              decoration: const InputDecoration(
-                labelText: StringConst.signUpPhone,
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.phone),
-              ),
+              labelText: StringConst.signUpPhone,
+              prefixIcon: Icons.phone,
               keyboardType: TextInputType.phone,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
                 LengthLimitingTextInputFormatter(10),
               ],
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return StringConst.signValidPhone;
-                }
-                return null;
-              },
+              validator: ReuseValidator.validatePhone,
             ),
             const SizedBox(height: 10),
-            TextFormField(
+            ReuseTextFormField(
               controller: passwordController,
-              obscureText: passToggle,
-              decoration: InputDecoration(
-                labelText: StringConst.signUpPassword,
-                border: const OutlineInputBorder(),
-                prefixIcon: const Icon(Icons.lock),
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      passToggle = !passToggle;
-                    });
-                  },
-                  icon: Icon(passToggle ? Icons.visibility : Icons.visibility_off),
-                ),
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return StringConst.signValidPass;
-                }
-                return null;
-              },
+              labelText: StringConst.signUpPassword,
+              prefixIcon: Icons.lock,
+              isPassword: true,
+              validator: ReuseValidator.validatePassword,
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -121,13 +77,11 @@ class _SignupScreenState extends State<SignupScreen> {
                   );
                   return;
                 }
-                UserModel user = UserModel(
+                AuthModel user = AuthModel(
                   username: usernameController.text,
                   password: passwordController.text,
                 );
-
                 bool registered = await _apiService.registerUser(user);
-
                 if (registered) {
                   Navigator.pushReplacement(
                     context,
