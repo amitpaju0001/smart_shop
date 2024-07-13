@@ -32,4 +32,15 @@ class StringConst {
   static const String signValidPass = 'Enter your password';
   static const String signSnackField = 'Fields is required';
   static const String signSnackFail = 'Registration failed. Try again.';
+  static const String signInFail = 'Login failed. Please try again.';
+  static const String dialogDelete = 'Confirm Delete';
+  static const String dialogDeleteDesc = 'Confirm to delete product?';
+  static const String dialogCancel = 'Cancel';
+  static const String dialogConfirm = 'Confirm';
+  static const String throwWrong = 'Something went wrong';
+  static const String returnAdd = 'Product added successfully';
+  static const String returnUpdate = 'Product updated successfully';
+  static const String throwFailed = 'Failed to delete product:';
+
+
 }

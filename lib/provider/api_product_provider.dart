@@ -1,47 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:smart_shop/model/product_model.dart';
-import 'package:smart_shop/service/api_service.dart';
+import 'package:smart_shop/service/product_api_service.dart';
 
 class ApiProductProvider extends ChangeNotifier {
-  final ApiService apiService = ApiService();
+  final ProductApiService apiService = ProductApiService();
   List<ProductModel> products = [];
 
   Future<void> fetchProducts() async {
     try {
-      List<ProductModel> fetchedProducts = await ApiService.fetchProducts();
+      List<ProductModel> fetchedProducts = await ProductApiService.fetchProducts();
       products = fetchedProducts;
       notifyListeners();
     } catch (e) {
-      print('Error fetched products: $e');
+      return;
     }
   }
 
 
   Future<void> addProduct(ProductModel product) async {
     try {
-      await ApiService.addProduct(product);
+      await ProductApiService.addProduct(product);
       await fetchProducts();
     } catch (e) {
-      print('Error adding product: $e');
+    return;
     }
   }
 
   Future<void> updateProduct(String productId, ProductModel product) async {
     try {
-      await ApiService.updateProduct(productId, product);
+      await ProductApiService.updateProduct(productId, product);
       await fetchProducts();
       notifyListeners();
     } catch (e) {
-      print('Error updating product: $e');
+     return;
     }
   }
   Future<void> deleteProduct(String productId) async {
     try {
-      await ApiService.deleteProduct(productId);
+      await ProductApiService.deleteProduct(productId);
       await fetchProducts();
       notifyListeners();
     } catch (e) {
-      print('Error deleting product: $e');
+      return;
     }
   }
 }

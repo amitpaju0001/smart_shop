@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_shop/model/product_model.dart';
 import 'package:smart_shop/provider/api_product_provider.dart';
 import 'package:smart_shop/shared/string_const.dart';
+import 'package:smart_shop/shared/widget/reuse_text_form_field.dart';
 
 class UpdateProductScreen extends StatefulWidget {
   final ProductModel product;
@@ -44,85 +46,29 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
             child: Column(
               children: [
                 const SizedBox(height: 16),
-                TextFormField(
+                ReuseTextFormField(
                   controller: nameController,
-                  decoration: InputDecoration(
-                    labelText: StringConst.addLabelName,
-                    hintText: StringConst.addLabelName,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.blue),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  ),
+                  labelText: StringConst.addLabelName,
+                  prefixIcon: Icons.label,
                 ),
-                const SizedBox(height: 16),
-                TextFormField(
+                const SizedBox(height: 10),
+                ReuseTextFormField(
                   controller: priceController,
-                  decoration: InputDecoration(
-                    labelText: StringConst.addLabelPrice,
-                    hintText: StringConst.addLabelPrice,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.blue),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  ),
+                  labelText: StringConst.addLabelPrice,
+                  prefixIcon: Icons.money,
                   keyboardType: TextInputType.number,
                 ),
-                const SizedBox(height: 16),
-                TextFormField(
+                const SizedBox(height: 10),
+                ReuseTextFormField(
                   controller: descController,
-                  decoration: InputDecoration(
-                    labelText: StringConst.addLabelDesc,
-                    hintText: StringConst.addLabelDesc,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.blue),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  ),
+                  labelText: StringConst.addLabelDesc,
+                  prefixIcon: Icons.description,
                 ),
-                const SizedBox(height: 16),
-                TextFormField(
+                const SizedBox(height: 10),
+                ReuseTextFormField(
                   controller: categoryController,
-                  decoration: InputDecoration(
-                    labelText: StringConst.homeCategory,
-                    hintText: StringConst.addLabelCategory,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.blue),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  ),
+                  labelText: StringConst.homeCategory,
+                  prefixIcon: Icons.category,
                 ),
                 const SizedBox(height: 16),
                 isLoading
@@ -146,8 +92,20 @@ class _UpdateProductScreenState extends State<UpdateProductScreen> {
                         description: productDesc,
                       );
 
-                        await Provider.of<ApiProductProvider>(context, listen: false).updateProduct(widget.product.id, updateProduct);
+                      try {
+                        await Provider.of<ApiProductProvider>(context, listen: false)
+                            .updateProduct(widget.product.id, updateProduct);
                         Navigator.pop(context);
+                      } catch (e) {
+                        print('Error: $e');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('${StringConst.errorUpdate}: $e')),
+                        );
+                      } finally {
+                        setState(() {
+                          isLoading = false;
+                        });
+                      }
                     }
                   },
                   child: const Text(StringConst.updateProduct),

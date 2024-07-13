@@ -137,21 +137,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
-                                      title: const Text('Confirm Delete'),
+                                      title: const Text(StringConst.dialogDelete),
                                       content: const Text(
-                                          'Confirm to delete product?'),
+                                          StringConst.dialogDeleteDesc),
                                       actions: [
                                         TextButton(
                                           onPressed: () {
                                             Navigator.of(context).pop(false);
                                           },
-                                          child: const Text('Cancel'),
+                                          child: const Text(StringConst.dialogCancel),
                                         ),
                                         TextButton(
                                           onPressed: () {
                                             Navigator.of(context).pop(true);
                                           },
-                                          child: const Text('Confirm'),
+                                          child: const Text(StringConst.dialogConfirm),
                                         ),
                                       ],
                                     );

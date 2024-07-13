@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_shop/provider/api_product_provider.dart';
-import 'package:smart_shop/provider/user_api_provider.dart';
+import 'package:smart_shop/provider/auth_api_provider.dart';
 import 'package:smart_shop/screen/home_screen.dart';
 import 'package:smart_shop/screen/signup_screen.dart';
 
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           return ApiProductProvider();
         },),
         ChangeNotifierProvider(create: (context) {
-          return UserApiProvider();
+          return AuthApiProvider();
         },)
       ],
       child: MaterialApp(

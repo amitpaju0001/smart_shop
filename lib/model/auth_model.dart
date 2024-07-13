@@ -1,8 +1,8 @@
-class UserModel {
+class AuthModel {
   String username;
   String password;
 
-  UserModel({required this.username, required this.password});
+  AuthModel({required this.username, required this.password});
 
   Map<String, dynamic> toMap() {
     return {
@@ -10,8 +10,8 @@ class UserModel {
       'password': password,
     };
   }
-  factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(
+  factory AuthModel.fromMap(Map<String, dynamic> map) {
+    return AuthModel(
       username: map['username'],
       password: map['password'],
     );

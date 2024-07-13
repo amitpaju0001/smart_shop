@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:smart_shop/model/product_model.dart';
 import 'package:smart_shop/provider/api_product_provider.dart';
 import 'package:smart_shop/shared/string_const.dart';
+import 'package:smart_shop/shared/widget/reuse_text_form_field.dart';
 
 class AddProductScreen extends StatefulWidget {
   const AddProductScreen({super.key});
@@ -17,7 +18,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final TextEditingController priceController = TextEditingController();
   final TextEditingController categoryController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey();
-  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,96 +31,37 @@ class _AddProductScreenState extends State<AddProductScreen> {
             key: formKey,
             child: Column(
               children: [
-                const SizedBox(height: 16,),
-                TextFormField(
+                const SizedBox(height: 16),
+                ReuseTextFormField(
                   controller: nameController,
-                  decoration: InputDecoration(
-                    labelText:StringConst.addLabelName,
-                    hintText: StringConst.addLabelName,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.blue),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  ),
+                  labelText: StringConst.addLabelName,
+                  prefixIcon: Icons.label,
                 ),
-                TextFormField(
+                const SizedBox(height: 10),
+                ReuseTextFormField(
                   controller: priceController,
-                  decoration: InputDecoration(
-                    labelText:StringConst.addLabelPrice,
-                    hintText: StringConst.addLabelPrice,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.blue),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  ),
+                  labelText: StringConst.addLabelPrice,
+                  prefixIcon: Icons.money,
                   keyboardType: TextInputType.number,
                 ),
-                TextFormField(
+                const SizedBox(height: 10),
+                ReuseTextFormField(
                   controller: descController,
-                  decoration: InputDecoration(
-                    labelText:StringConst.addLabelDesc,
-                    hintText: StringConst.addLabelDesc,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.blue),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  ),
+                  labelText: StringConst.addLabelDesc,
+                  prefixIcon: Icons.description,
                 ),
-                TextFormField(
+                const SizedBox(height: 10),
+                ReuseTextFormField(
                   controller: categoryController,
-                  decoration: InputDecoration(
-                    labelText:StringConst.homeCategory,
-                    hintText: StringConst.addLabelCategory,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.blue),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.grey),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  ),
+                  labelText: StringConst.homeCategory,
+                  prefixIcon: Icons.category,
                 ),
                 const SizedBox(height: 16),
                 Consumer<ApiProductProvider>(
                   builder: (context, productProvider, child) {
-                    return isLoading
-                        ? const CircularProgressIndicator()
-                        : ElevatedButton(
+                    return ElevatedButton(
                       onPressed: () async {
                         if (formKey.currentState?.validate() ?? false) {
-                          setState(() {
-                            isLoading = true;
-                          });
-
                           String productName = nameController.text;
                           String productDesc = descController.text;
                           int productPrice = int.parse(priceController.text);
@@ -137,14 +78,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             await productProvider.addProduct(productModel);
                             Navigator.pop(context);
                           } catch (e) {
-                            print('Error: $e');
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(content: Text('${StringConst.errorAdd}: $e')),
                             );
-                          } finally {
-                            setState(() {
-                              isLoading = false;
-                            });
                           }
                         }
                       },
