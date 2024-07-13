@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:smart_shop/model/product_model.dart';
-import 'package:smart_shop/service/api_endpoints.dart';
+import 'package:smart_shop/shared/api_endpoints.dart';
+import 'package:smart_shop/shared/string_const.dart';
 
-class ApiService {
+class ProductApiService {
   static Future<ProductModel> fetchProduct(String productId) async {
     String url = '${ApiEndpoints.product}/$productId';
     Uri uri = Uri.parse(url);
@@ -17,7 +18,7 @@ class ApiService {
       ProductModel productModel = ProductModel.fromJson(json);
       return productModel;
     } else {
-      throw 'Something went wrong';
+      throw StringConst.throwWrong;
     }
   }
   static Future<List<ProductModel>> fetchProducts() async {
@@ -36,7 +37,7 @@ class ApiService {
 
       return productList;
     } else {
-      throw 'Something went wrong';
+      throw StringConst.throwWrong;
     }
   }
 
@@ -56,9 +57,9 @@ class ApiService {
     );
 
     if (response.statusCode == 201) {
-      return 'Product added successfully';
+      return StringConst.returnAdd;
     } else {
-      throw 'Something went wrong';
+      throw StringConst.throwWrong;
     }
   }
   static Future<String> updateProduct(
@@ -71,26 +72,21 @@ class ApiService {
       'Authorization': 'Bearer ${ApiEndpoints.authToken}',
     });
     if (response.statusCode == 200) {
-      return 'Product updated successfully';
+      return StringConst.returnUpdate;
     } else {
-      throw 'Something went wrong';
+      throw StringConst.throwWrong;
     }
   }
 
   static Future<void> deleteProduct(String productId) async {
-    if (productId == null) {
-      throw 'Product ID cannot be null';
-    }
-
     Uri uri = Uri.parse('${ApiEndpoints.product}/$productId');
     Response response = await http.delete(uri, headers: {
       'Authorization': 'Bearer ${ApiEndpoints.authToken}',
       'Content-Type': 'application/json',
     });
     if (response.statusCode == 200) {
-      print('Product deleted successfully');
     } else {
-      throw 'Failed to delete product: ${response.statusCode}';
+      throw '${StringConst.throwFailed} ${response.statusCode}';
     }
   }
 }
