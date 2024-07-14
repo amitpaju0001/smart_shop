@@ -112,17 +112,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               onPressed: () {
                                 Navigator.push(context, MaterialPageRoute(
                                   builder: (context) {
-                                    return const AddProductScreen();
-                                  },
-                                )).then((_) {
-                                  fetchProducts();
-                                });
-                              },
-                              child: const Text(StringConst.homeAdd)),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) {
                                     return UpdateProductScreen(
                                         product: product);
                                   },
@@ -172,6 +161,18 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
       ),
+     floatingActionButton: FloatingActionButton(
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) {
+            return const AddProductScreen();
+          },
+        )).then((_) {
+          fetchProducts();
+        });
+      },
+      child: const Icon(Icons.add),
+    ),
     );
   }
 }
